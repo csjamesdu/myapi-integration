@@ -50,8 +50,15 @@ namespace myapi.Services
         }
         public async Task<IEnumerable<MovieItem>> AsyncGetMovieItemsByAPI()
         {
-            List<MovieItem> FWMovies = await getMoviesFromProvider(FILM_WORLD_API); List<MovieItem> CWMovies = await getMoviesFromProvider(CINEMA_WORLD_API);
-            var rawResults = await Task.WhenAll(getMoviesFromProvider(FILM_WORLD_API), getMoviesFromProvider(CINEMA_WORLD_API)); var intermediateResult = rawResults.SelectMany(result => result); foreach (MovieItem item in intermediateResult) { item.ID = item.ID.Substring(2); item.Poster = item.Poster.Replace("http", "https"); }
+            List<MovieItem> FWMovies = await getMoviesFromProvider(FILM_WORLD_API); 
+            List<MovieItem> CWMovies = await getMoviesFromProvider(CINEMA_WORLD_API);
+            var rawResults = await Task.WhenAll(getMoviesFromProvider(FILM_WORLD_API), getMoviesFromProvider(CINEMA_WORLD_API)); 
+            var intermediateResult = rawResults.SelectMany(result => result); 
+            foreach (MovieItem item in intermediateResult) 
+            { 
+                item.ID = item.ID.Substring(2); 
+                item.Poster = item.Poster.Replace("http", "https"); 
+            }
             IEnumerable<MovieItem> finalResult = intermediateResult.ToList().GroupBy(item => item.ID).Select(group => group.First());
             return finalResult;
         }
@@ -62,7 +69,8 @@ namespace myapi.Services
             var httpClient = _httpClientFactory.CreateClient("MyMovieClient"); 
             var request = new HttpRequestMessage(HttpMethod.Get, provider);
             var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead); 
-            response.EnsureSuccessStatusCode(); MoviesDTO movies = JsonConvert.DeserializeObject<MoviesDTO>(await response.Content.ReadAsStringAsync()); 
+            response.EnsureSuccessStatusCode(); 
+            MoviesDTO movies = JsonConvert.DeserializeObject<MoviesDTO>(await response.Content.ReadAsStringAsync()); 
             List<MovieItem> itemList = movies.Movies;
             return itemList;
         }

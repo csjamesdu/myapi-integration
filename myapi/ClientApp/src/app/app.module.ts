@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { SingleMovieComponent } from './single-movie/single-movie.component';
 import { ErrorComponent } from './error/error.component';
@@ -21,7 +20,6 @@ import { AppHttpClient } from './services/app-http-client.service';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     MovieListComponent,
     SingleMovieComponent,
     ErrorComponent,
