@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace myapi.Services
 {
-    public interface IMyMovieService
+    public interface IMyMovieDetailService
     {
-        IEnumerable<MovieItem> GetMovies();
+        public MovieDetail GetDetailById(int id);
     }
 }

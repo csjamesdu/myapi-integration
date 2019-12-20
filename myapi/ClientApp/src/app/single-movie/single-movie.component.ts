@@ -4,7 +4,7 @@ import { AppHttpClient } from '../services/app-http-client.service';
 import { switchMap } from 'rxjs/internal/operators';
 import { MoviesItemDetailModel } from '../models/movies.detail.model';
 
-const API_URL = 'http://webjetapitest.azurewebsites.net/api/cinemaworld/';
+const API_URL = 'https://localhost:44324/';
 
 @Component({
   selector: 'app-single-movie',
@@ -23,7 +23,7 @@ export class SingleMovieComponent implements OnInit {
     this.route.paramMap.pipe(switchMap((param: any) => {
       this.id = param.params.id;
       console.log(this.id);
-      return this.httpClient.get(API_URL + 'movie/' + this.id);
+      return this.httpClient.get(API_URL + 'api/MyMovies/' + this.id);
     })).subscribe(response => {
 
       this.movieDetail = new MoviesItemDetailModel(response);

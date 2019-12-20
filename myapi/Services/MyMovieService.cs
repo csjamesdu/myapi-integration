@@ -27,7 +27,7 @@ namespace myapi.Services
             _logger = logger;
             _movieItemDAO = movieItemDAO;
         }
-        public IEnumerable<MovieItem> getMovies()
+        public IEnumerable<MovieItem> GetMovies()
         {
             var result = _movieItemDAO.GetMovieItemsFromInMemDB(); 
             if (result == null || !result.Any()) 
@@ -58,9 +58,9 @@ namespace myapi.Services
         }
         public async Task<IEnumerable<MovieItem>> AsyncGetMovieItemsByAPI()
         {
-            List<MovieItem> FWMovies = await getMoviesFromProvider(FILM_WORLD_API); 
-            List<MovieItem> CWMovies = await getMoviesFromProvider(CINEMA_WORLD_API);
-            var rawResults = await Task.WhenAll(getMoviesFromProvider(FILM_WORLD_API), getMoviesFromProvider(CINEMA_WORLD_API)); 
+            List<MovieItem> FWMovies = await GetMoviesFromProvider(FILM_WORLD_API); 
+            List<MovieItem> CWMovies = await GetMoviesFromProvider(CINEMA_WORLD_API);
+            var rawResults = await Task.WhenAll(GetMoviesFromProvider(FILM_WORLD_API), GetMoviesFromProvider(CINEMA_WORLD_API)); 
             var intermediateResult = rawResults.SelectMany(result => result); 
             foreach (MovieItem item in intermediateResult) 
             { 
@@ -72,7 +72,7 @@ namespace myapi.Services
         }
 
 
-        private async Task<List<MovieItem>> getMoviesFromProvider(string provider)
+        private async Task<List<MovieItem>> GetMoviesFromProvider(string provider)
         {
             var httpClient = _httpClientFactory.CreateClient("MyMovieClient"); 
             var request = new HttpRequestMessage(HttpMethod.Get, provider);

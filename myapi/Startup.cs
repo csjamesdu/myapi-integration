@@ -33,7 +33,7 @@ namespace myapi
             //Inject Services
             services.AddScoped<IMyMovieService, MyMovieService>();
             services.AddScoped<IMovieItemDAO, MovieItemDAO>();
-            
+            services.AddScoped<IMyMovieDetailService, MyMovieDetailService>();
 
             //Inject HttpClient
             services.AddHttpClient("MyMovieClient", client =>
