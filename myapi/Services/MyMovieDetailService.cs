@@ -24,13 +24,13 @@ namespace myapi.Services
             _logger = logger;
         }
 
-        public MovieDetail GetDetailById(int id)
+        public MovieDetail GetDetailById(string id)
         {
             MovieDetail result = Task.Run(() => GetMovieDetailFromProvider(CINEMA_WORLD_API, id)).GetAwaiter().GetResult(); ;
             return result;
         }
 
-        private async Task<MovieDetail> GetMovieDetailFromProvider(string provider, int id)
+        private async Task<MovieDetail> GetMovieDetailFromProvider(string provider, string id)
         {
             var requestUri = provider + "cw" + id;
             var httpClient = _httpClientFactory.CreateClient("MyMovieClient");

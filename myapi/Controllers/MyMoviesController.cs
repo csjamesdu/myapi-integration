@@ -40,7 +40,7 @@ namespace myapi.Controllers
 
         // GET: api/MyMovies/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<string> Get(string id)
         {
             _logger.LogInformation("*********************ID Requested: " + id);
             MovieDetail result = _myMovieDetailService.GetDetailById(id);
