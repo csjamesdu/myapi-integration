@@ -8,6 +8,6 @@ namespace myapi.Services
 {
     public interface IMyMovieService
     {
-        IEnumerable<MovieItem> getData(bool refresh);
+        IEnumerable<MovieItem> getMovies();
     }
 }

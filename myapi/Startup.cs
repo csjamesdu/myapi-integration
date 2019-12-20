@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using myapi.DAO;
+using myapi.Models;
 using myapi.Services;
 using Polly;
 using Polly.Extensions.Http;
@@ -24,7 +27,15 @@ namespace myapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Inject In-Memory DB 
+            services.AddDbContext<MovieItemContext>(opt => opt.UseInMemoryDatabase("MovieItem"));
+
+            //Inject Services
             services.AddScoped<IMyMovieService, MyMovieService>();
+            services.AddScoped<IMovieItemDAO, MovieItemDAO>();
+            
+
+            //Inject HttpClient
             services.AddHttpClient("MyMovieClient", client =>
             {
                 client.BaseAddress = new Uri("http://webjetapitest.azurewebsites.net/");

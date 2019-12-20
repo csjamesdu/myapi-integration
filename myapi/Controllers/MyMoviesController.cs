@@ -23,12 +23,12 @@ namespace myapi.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            IEnumerable<MovieItem> results = _myMovieService.getData(false);
-            MoviesDTO response = new MoviesDTO
+            IEnumerable<MovieItem> results = _myMovieService.getMovies();
+            MoviesDTO responseBody = new MoviesDTO
             {
                 Movies = results.ToList()
             };
-            return JsonConvert.SerializeObject(response);
+            return JsonConvert.SerializeObject(responseBody);
         }
 
         // GET: api/MyMovies/5

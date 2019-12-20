@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using myapi.DAO;
 using myapi.Models;
 using Newtonsoft.Json;
 using System;
@@ -15,24 +16,31 @@ namespace myapi.Services
         const string CINEMA_WORLD_API = "api/cinemaworld/movies"; 
 
         private readonly IHttpClientFactory _httpClientFactory; 
-        private readonly ILogger<MyMovieService> _logger; 
-//        private readonly IMyInMemDBService _myInMemDBService;
+        private readonly ILogger<MyMovieService> _logger;
+        private readonly IMovieItemDAO _movieItemDAO;
 
         public MyMovieService(IHttpClientFactory httpClientFactory, 
-            ILogger<MyMovieService> logger) { 
-            _httpClientFactory = httpClientFactory; 
-             }
-        public IEnumerable<MovieItem> getData(bool refresh)
+            ILogger<MyMovieService> logger,
+            IMovieItemDAO movieItemDAO) 
+        { 
+            _httpClientFactory = httpClientFactory;
+            _logger = logger;
+            _movieItemDAO = movieItemDAO;
+        }
+        public IEnumerable<MovieItem> getMovies()
         {
-            //var result = _myInMemDBService.GetMovieItemsFromDB(); 
-            //if (result == null || !result.Any()) 
-            //{   
-            //    result = SyncGetMovieItemsByAPI(); 
-            //    _myInMemDBService.SaveMovieItemsToDB(result); 
-            //    _logger.LogInformation("Result Saved."); }
-            //_logger.LogInformation(JsonConvert.SerializeObject(result.ToList()));
-            //return result;
-            return SyncGetMovieItemsByAPI();
+            var result = _movieItemDAO.GetMovieItemsFromInMemDB(); 
+            if (result == null || !result.Any()) 
+            {   
+                result = SyncGetMovieItemsByAPI();
+                _movieItemDAO.SaveMovieItemsToInMemDB(result); 
+                _logger.LogInformation("Result Saved."); 
+            }
+
+            _logger.LogInformation(JsonConvert.SerializeObject(result.ToList()));
+
+            return result;
+
         }
         public IEnumerable<MovieItem> SyncGetMovieItemsByAPI()
         {
