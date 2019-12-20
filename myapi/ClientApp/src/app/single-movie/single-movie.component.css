@@ -1,0 +1,47 @@
+#detail-poster {
+  float: left;
+  margin: 15px;
+}
+
+#detail-text {
+  float: left;
+  width: 500px;
+  margin: 15px 0 0 0;
+  padding-left: 15px;
+  border-left: 1px solid #eaeaea;
+  color: #000000b3;
+}
+
+.pl {
+  font: 12px Arial, Helvetica, sans-serif;
+  line-height: 150%;
+  color: #666666;
+}
+
+.attrs {
+  font: 12px Arial, Helvetica, sans-serif;
+  line-height: 150%;
+}
+
+.price-button {
+  position: absolute;
+  margin-left: 344px;
+  margin-top: 360px;
+}
+
+.place-holder {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  left: 15px;
+}
+
+.poster-img {
+  position: absolute;
+  z-index: 2;
+  position: absolute;
+  width: 300px;
+  height: 420px;
+  left: 30px;
+  z-index: 2;
+}

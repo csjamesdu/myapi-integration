@@ -1,0 +1,21 @@
+<div class="movie-list">
+  <div *ngFor="let movie of allMovies.Movies">
+    <div class="movie-card">
+      <mat-card class="movie-wrapper">
+        <mat-card-header>
+          <mat-card-title>{{movie.Title}}</mat-card-title>
+          <mat-card-subtitle>{{movie.Year}}</mat-card-subtitle>
+        </mat-card-header>
+        <img class="place-holder" mat-card-image src="https://via.placeholder.com/300x420?text=Poster's Gone...">
+        <img class="poster-img" mat-card-image src="{{movie.Poster}}" alt="">
+        <mat-card-content>
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="detail-button" mat-raised-button color="primary" [routerLink]="['/movie', movie.ID]">
+            Details
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
