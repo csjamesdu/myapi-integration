@@ -27,6 +27,10 @@ namespace myapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //Inject In-Memory Cache
+            services.AddMemoryCache();
+
             //Inject In-Memory DB 
             services.AddDbContext<MovieItemContext>(opt => opt.UseInMemoryDatabase("MovieItem"));
 
@@ -106,7 +110,7 @@ namespace myapi
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-                .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,retryAttempt)));
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,retryAttempt)));
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using myapi.Models;
 using myapi.Services;
@@ -18,35 +15,57 @@ namespace myapi.Controllers
         private readonly ILogger<MyMoviesController> _logger;
         private readonly IMyMovieService _myMovieService;
         private readonly IMyMovieDetailService _myMovieDetailService;
+        private readonly IMemoryCache _memoryCahce;
         public MyMoviesController(IMyMovieService myMovieService,
             IMyMovieDetailService myMovieDetailService,
-            ILogger<MyMoviesController> logger)
+            ILogger<MyMoviesController> logger,
+            IMemoryCache memoryCache)
         {
             _myMovieService = myMovieService;
             _myMovieDetailService = myMovieDetailService;
             _logger = logger;
+            _memoryCahce = memoryCache;
         }
         // GET: api/MyMovies
         [HttpGet]
         public ActionResult<string> Get()
         {
-            IEnumerable<MovieItem> results = _myMovieService.GetMovies();
-            MoviesDTO responseBody = new MoviesDTO
+            var cacheKey = "movieList";
+            if (_memoryCahce.TryGetValue(cacheKey, out string results))
             {
-                Movies = results.ToList()
-            };
-            return JsonConvert.SerializeObject(responseBody);
+                _logger.LogInformation("***************cache hit for list");
+                return Ok(results);
+            }
+            else
+            {
+                var resultCollection = _myMovieService.GetMovies();
+                MoviesDTO responseBody = new MoviesDTO
+                {
+                    Movies = resultCollection.ToList()
+                };
+                //return JsonConvert.SerializeObject(responseBody);
+                _memoryCahce.Set(cacheKey, JsonConvert.SerializeObject(responseBody));
+                return Ok(JsonConvert.SerializeObject(responseBody));
+            }
+
         }
 
         // GET: api/MyMovies/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<string> Get(string id)
         {
-            _logger.LogInformation("*********************ID Requested: " + id);
-            MovieDetail result = _myMovieDetailService.GetDetailById(id);
-            _logger.LogInformation(JsonConvert.SerializeObject(result));
-            return JsonConvert.SerializeObject(result);
-            
+            var cacheKey = "movieDetail_" + id;
+            if (_memoryCahce.TryGetValue(cacheKey, out string resultStr))
+            {
+                _logger.LogInformation("***************cache hit for detail " + id);
+                return Ok(resultStr);
+            }
+            else
+            {
+                var result = _myMovieDetailService.GetDetailById(id);
+                _memoryCahce.Set(cacheKey, JsonConvert.SerializeObject(result));
+                return Ok(JsonConvert.SerializeObject(result));
+            }           
         }
 
     }
