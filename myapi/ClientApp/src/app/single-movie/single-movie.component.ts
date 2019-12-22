@@ -4,7 +4,7 @@ import { AppHttpClient } from '../services/app-http-client.service';
 import { switchMap } from 'rxjs/internal/operators';
 import { MoviesItemDetailModel } from '../models/movies.detail.model';
 
-const API_URL = 'https://localhost:44324/';
+const API_URL = 'https://localhost:5001/';
 
 @Component({
   selector: 'app-single-movie',
