@@ -24,25 +24,4 @@ export class AppHttpClient extends HttpClient {
       return of(source);
     }));
   }
-
-
-  // post(url: string, body: any | null, options: any = {}): Observable<any> {
-  //
-  //   if (environment.production) {
-  //     return this.postWithProcess(url, body, options);
-  //   } else {
-  //     return this.getWithProcess(url);
-  //   }
-  // }
-
-  // postWithProcess(url: string, body: any | null, options: any): Observable<any> {
-  //   return super.post(url, body, options).pipe(switchMap(source => {
-  //     return of(source);
-  //   }));
-  // }
-
-
-
-
-
 }

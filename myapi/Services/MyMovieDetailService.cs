@@ -113,7 +113,7 @@ namespace myapi.Services
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 result = null;
-                _logger.LogInformation("***************Not Found Hit!");
+//                _logger.LogInformation("***************Not Found Hit!");
             }           
             return result;
         }

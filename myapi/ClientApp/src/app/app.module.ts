@@ -14,6 +14,7 @@ import { BlankComponent } from './blank/blank.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material';
 import { AppHttpClient } from './services/app-http-client.service';
+import { HttpErrorInterceptor } from './services/app-error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -33,12 +34,19 @@ import { AppHttpClient } from './services/app-http-client.service';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'movies', component: MovieListComponent },
       { path: 'movie/:id', component: SingleMovieComponent },
+      { path: 'error', component: ErrorComponent },
       { path: '**', component: BlankComponent },
     ]),
     BrowserAnimationsModule,
     MatCardModule,
   ],
-  providers: [AppHttpClient],
+  providers: [AppHttpClient,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

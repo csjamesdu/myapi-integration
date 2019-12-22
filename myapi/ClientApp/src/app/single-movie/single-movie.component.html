@@ -81,7 +81,7 @@
   </div>
 
   <div class="price-button">
-    Lowest Price: {{movieDetail.Price}}
+    Lowest Price: {{movieDetail.Price | currency}}
   </div>
 </div>
 <div class="spinner-border" role="status" [hidden]="!onLoading">

@@ -39,13 +39,21 @@ namespace myapi.Controllers
             else
             {
                 var resultCollection = _myMovieService.GetMovies();
-                MoviesDTO responseBody = new MoviesDTO
+                if(resultCollection.Any())
                 {
-                    Movies = resultCollection.ToList()
-                };
-                //return JsonConvert.SerializeObject(responseBody);
-                _memoryCahce.Set(cacheKey, JsonConvert.SerializeObject(responseBody));
-                return Ok(JsonConvert.SerializeObject(responseBody));
+                    MoviesDTO responseBody = new MoviesDTO
+                    {
+                        Movies = resultCollection.ToList()
+                    };
+                    var resultJson = JsonConvert.SerializeObject(responseBody);
+                    _memoryCahce.Set(cacheKey, resultJson);
+                    return Ok(resultJson);
+                }
+                else
+                {
+                    return NotFound();
+                }
+               
             }
 
         }
@@ -63,8 +71,17 @@ namespace myapi.Controllers
             else
             {
                 var result = _myMovieDetailService.GetDetailById(id);
-                _memoryCahce.Set(cacheKey, JsonConvert.SerializeObject(result));
-                return Ok(JsonConvert.SerializeObject(result));
+                if(result != null)
+                {
+                    var resultJson = JsonConvert.SerializeObject(result);
+                    _memoryCahce.Set(cacheKey, resultJson);
+                    return Ok(resultJson);
+                }
+                else
+                {
+                    return NotFound();
+                }
+                
             }           
         }
 
