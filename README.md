@@ -1,22 +1,19 @@
+# Movie World
 
-#Platform:
-1. Use Angular as front-end SPA
+This project implements a web app that query from two different API providers and present the available movies as well as the best price for each movie.
+  - Angular 8 as integrated SPA
+  - Dotnet Core 3.1 as Backend Host
 
-2. Use .Net Core 3.1 as backend service Host.
+### Features
 
-#Features:
-1. Query two different third party APIs with 3 retry attempts and combine the results;
+  - Query two different third party APIs with 3 retry attempts and combine the results;
+  - Cache API query results with In Memory Cache mechanism provided by the platform;
+  - Write the movies list into the In Memory DB as backup after API query sucessfully;
 
-2. Cache API query results with In Memory Cache mechanism provided by the platform;
+### Adjustments
+- The Id of each movie is unified by cutting off the prefix.
+- The poster uri are all substitued by valid resources.
 
-3. Write the movies list into the In Memory DB as backup after API query sucessfully;
- 
-#Adjustments:
-1. The Id of each movie is unified by cutting off the prefix.
-
-2. The poster uri are all substitued by valid resources.
-
-#Run Project in IDE:
-Under Visual Studio - Please select debugging myapi and run debugging;
-
-Under VS Code - Either Debugging or Run Without Debugging;
+### Run 
+- Under Visual Studio 2019: Please select debugging "myapi" and run debugging
+- Under VSCode : Either Debugging or Run Without Debugging
