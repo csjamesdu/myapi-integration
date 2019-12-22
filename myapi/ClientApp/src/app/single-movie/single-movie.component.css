@@ -45,3 +45,9 @@
   left: 146px;
   z-index: 2;
 }
+
+.spinner-border {
+  position: absolute;
+  left: 514px;
+  top: 250px;
+}

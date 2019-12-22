@@ -15,6 +15,7 @@ export class SingleMovieComponent implements OnInit {
 
   id: number;
   movieDetail: MoviesItemDetailModel = new MoviesItemDetailModel();
+  onLoading: boolean = true;
 
 
   constructor(private route: ActivatedRoute, private httpClient: AppHttpClient) { }
@@ -25,7 +26,7 @@ export class SingleMovieComponent implements OnInit {
       console.log(this.id);
       return this.httpClient.get(API_URL + 'api/MyMovies/' + this.id);
     })).subscribe(response => {
-
+      this.onLoading = false;
       this.movieDetail = new MoviesItemDetailModel(response);
       console.log(this.movieDetail);
     });

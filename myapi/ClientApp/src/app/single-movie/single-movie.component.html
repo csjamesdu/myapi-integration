@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [hidden] ="onLoading">
   <div class="movie-info">
     <div class="detail-info">
       <div id="detail-poster">
@@ -83,4 +83,7 @@
   <div class="price-button">
     Lowest Price: {{movieDetail.Price}}
   </div>
+</div>
+<div class="spinner-border" role="status" [hidden]="!onLoading">
+  <span class="sr-only">Loading...</span>
 </div>

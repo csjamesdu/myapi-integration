@@ -31,3 +31,9 @@
   bottom: 26px;
   border-radius: 4px;
 }
+
+.spinner-border {
+  position: absolute;
+  left: 514px;
+  top: 250px;
+}
