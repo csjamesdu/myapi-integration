@@ -16,20 +16,27 @@ export class SingleMovieComponent implements OnInit {
   id: number;
   movieDetail: MoviesItemDetailModel = new MoviesItemDetailModel();
   onLoading: boolean = true;
+  providedBy: string;
 
 
   constructor(private route: ActivatedRoute, private httpClient: AppHttpClient) { }
 
   ngOnInit() {
     this.route.paramMap.pipe(switchMap((param: any) => {
-      this.id = param.params.id;
-      console.log(this.id);
+      this.id = param.params.id;     
       return this.httpClient.get(API_URL + 'api/MyMovies/' + this.id);
     })).subscribe(response => {
       this.onLoading = false;
       this.movieDetail = new MoviesItemDetailModel(response);
-      console.log(this.movieDetail);
+      this.providedBy = this.getProvider(response);      
     });
+  }
+
+  getProvider(response: any): string {
+    let prefix = response.ID.substring(0, 2);
+    if (prefix == 'cw') return 'Cinema World';
+    else if (prefix == 'fw') return 'Film World';
+    else return 'Unknown';
   }
 
 }

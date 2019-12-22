@@ -26,20 +26,10 @@ export class MovieListComponent implements OnInit {
       this.allMovies.Movies.sort((a, b) =>
         (a.Year > b.Year) ? -1 : 1
       );
-      console.log(this.allMovies);
     });
   }
 
   requestMovies(): any {
     return this.httpClient.get(API_URL + 'api/MyMovies');
-  }
-
-  getDetailsById(id: string) {
-
-    this.httpClient.get(API_URL + 'api/MyMovies/' + id).subscribe(response => {
-      console.log(response);
-      this.singleDetail = new MoviesItemDetailModel(response);
-
-    });
   }
 }
