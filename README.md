@@ -25,9 +25,9 @@ This project implements a web app that queries from two different API providers 
 #### Implemented as at 22/12/2019:
 - Query supplier APIs and get sample responses;
 - Initiate Angular Project with sample response as In Memory Data; Repo: https://github.com/csjamesdu/movie-world.git
-- Develop backend services to connect with third party APIs and process the response data
+- Develop backend controller and services to connect with third party APIs and process the response data
 - Integrate Angular into the Dotnet Core Project 
-- Add retry policy, in memory cache mechanism and in memory database at backend
+- Add retry policy, in memory cache mechanism and in memory database at backend to enhance resilience
 - Polish front-end style and add error handling mechanism with http-interceptor
 
 #### Future Possibilities:
