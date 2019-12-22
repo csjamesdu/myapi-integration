@@ -27,8 +27,8 @@ This project implements a web app that query from two different API providers an
 - Develop backend services to connect with third party APIs and process the response data
 - Integrate Angular into the Dotnet Core Project 
 - Add retry policy, in memory cache mechanism and in memory database at backend
-- Polishing front-end style and add error handling mechanism with http-interceptor
+- Polish front-end style and add error handling mechanism with http-interceptor
 
-#### Future
+#### Future Possibilities:
 - Build docker image to containerize the project
 - Deploy docker on the AZURE cloud platform
