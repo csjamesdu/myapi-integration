@@ -7,7 +7,7 @@ This project implements a web app that queries from two different API providers 
 
 ### Run 
 #### Web Host: 
-	- Azure: https://myapi-movie-world.azurewebsites.net/
+- Azure https://myapi-movie-world.azurewebsites.net/
 #### Local Debug:
 - Under Visual Studio 2019: Please select debugging "myapi" and run debugging.
 - Under VSCode : Either Debugging or Run Without Debugging.
