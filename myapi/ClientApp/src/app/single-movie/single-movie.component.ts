@@ -4,9 +4,6 @@ import { AppHttpClient } from '../services/app-http-client.service';
 import { switchMap } from 'rxjs/internal/operators';
 import { MoviesItemDetailModel } from '../models/movies.detail.model';
 
-/*const API_URL = 'https://myapi-movie-world.azurewebsites.net/';*/
-const API_URL = 'https://localhost:5001/';
-
 @Component({
   selector: 'app-single-movie',
   templateUrl: './single-movie.component.html',
@@ -28,7 +25,7 @@ export class SingleMovieComponent implements OnInit {
 
     this.route.paramMap.pipe(switchMap((param: any) => {
       this.id = param.params.id;     
-      return this.httpClient.get(API_URL + 'api/MyMovies/' + this.id);
+      return this.httpClient.get('api/MyMovies/' + this.id);
     })).subscribe(response => {
       this.onLoadingDetail = false;
       this.movieDetail = new MoviesItemDetailModel(response);   
@@ -36,7 +33,7 @@ export class SingleMovieComponent implements OnInit {
 
     this.route.paramMap.pipe(switchMap((param: any) => {
       this.id = param.params.id;
-      return this.httpClient.get(API_URL + 'api/Price/' + this.id);
+      return this.httpClient.get('api/Price/' + this.id);
     })).subscribe(response => {
       this.onLoadingPrice = false;
       this.moviePrice = new MoviesItemDetailModel(response);

@@ -7,7 +7,7 @@ This project implements a web app that queries from two different API providers 
 
 ### Run 
 #### Web Host: 
-	-Azure: https://myapi-movie-world.azurewebsites.net/
+	- Azure: https://myapi-movie-world.azurewebsites.net/
 #### Local Debug:
 - Under Visual Studio 2019: Please select debugging "myapi" and run debugging.
 - Under VSCode : Either Debugging or Run Without Debugging.
@@ -16,9 +16,9 @@ This project implements a web app that queries from two different API providers 
 ### Features
 
   - Query two different third party APIs with 3 retry attempts and combine the results;
-  - Write the movies list into the In Memory DB as backups after API query respond sucessfully;
+  - Write the movie list into the In Memory DB as backups after API query respond sucessfully;
   - Cache API query results including movie list and details with In Memory Cache mechanism provided by the platform;
-  - Movie price will not be cached, it will be querid directly through API each time;
+  - Movie price will not be cached, it will be querid directly through API in realtime manner;
   
 
 ### Adjustments

@@ -7,6 +7,9 @@ import { Observable, of } from 'rxjs';
 
 import { switchMap } from 'rxjs/internal/operators';
 
+/*const API_URL = 'https://myapi-movie-world.azurewebsites.net/';*/
+const API_URL = 'https://localhost:5001/';
+
 @Injectable()
 export class AppHttpClient extends HttpClient {
 
@@ -15,12 +18,11 @@ export class AppHttpClient extends HttpClient {
   }
 
   get(url: string): Observable<any> {
-    console.log('request url: ' + url);
     return this.getWithProcess(url);
   }
 
   getWithProcess(url: string): Observable<any> {
-    return super.get(url).pipe(switchMap(source => {
+    return super.get(API_URL + url).pipe(switchMap(source => {
       return of(source);
     }));
   }
