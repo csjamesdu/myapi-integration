@@ -8,6 +8,6 @@ namespace myapi.Services
 {
     public interface IMyMovieDetailService
     {
-        public MovieDetail GetDetailById(string id);
+        public Task<MovieDetail> GetDetailById(string id);
     }
 }

@@ -24,9 +24,9 @@ namespace myapi.Controllers
 
         // GET: api/Price/5
         [HttpGet("{id}", Name = "GetPrice")]
-        public ActionResult<string> Get(string id)
+        public async Task<ActionResult<string>> Get(string id)
         {
-            MovieDetail detail = _myMovieDetailService.GetDetailById(id);
+            MovieDetail detail = await _myMovieDetailService.GetDetailById(id);
             var JsonStr = JsonConvert.SerializeObject(detail);
             return Ok(JsonStr);
         }

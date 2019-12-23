@@ -8,6 +8,6 @@ namespace myapi.Services
 {
     public interface IMyMovieService
     {
-        IEnumerable<MovieItem> GetMovies();
+        Task<IEnumerable<MovieItem>> GetMovies();
     }
 }

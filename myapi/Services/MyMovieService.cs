@@ -27,12 +27,12 @@ namespace myapi.Services
             _logger = logger;
             _movieItemDAO = movieItemDAO;
         }
-        public IEnumerable<MovieItem> GetMovies()
+        public async Task<IEnumerable<MovieItem>> GetMovies()
         {
             var result = _movieItemDAO.GetMovieItemsFromInMemDB(); 
             if (result == null || !result.Any()) 
             {   
-                result = GetMovieItemsFromEitherAPI();
+                result = await GetMovieItemsFromEitherAPI();
                 _movieItemDAO.SaveMovieItemsToInMemDB(result); 
                 _logger.LogInformation("***************Result Saved."); 
             }
@@ -43,26 +43,12 @@ namespace myapi.Services
 
         }
 
-        private IEnumerable<MovieItem> GetMovieItemsFromEitherAPI()
+        private async Task<IEnumerable<MovieItem>> GetMovieItemsFromEitherAPI()
         {
-            var resultCW = SyncGetMovieFromProvider(CINEMA_WORLD_API);
-            var resultFW = SyncGetMovieFromProvider(FILM_WORLD_API);
+            var resultCW = await GetMoviesFromProvider(CINEMA_WORLD_API);
+            var resultFW = await GetMoviesFromProvider(FILM_WORLD_API);
 
             return MergeAndProcessResults(resultCW, resultFW);
-        }
-
-        private IEnumerable<MovieItem> SyncGetMovieFromProvider(string provider)
-        {
-            try
-            {
-                var result = Task.Run(() => GetMoviesFromProvider(provider))
-                    .GetAwaiter().GetResult();
-                return result;
-            } catch( Exception e)
-            {
-                _logger.LogError(provider + " API Fails: " + e);
-                return new List<MovieItem>();
-            }
         }
 
         private IEnumerable<MovieItem> MergeAndProcessResults(IEnumerable<MovieItem> original, IEnumerable<MovieItem> others)
@@ -81,40 +67,22 @@ namespace myapi.Services
 
         private async Task<List<MovieItem>> GetMoviesFromProvider(string provider)
         {
-            var httpClient = _httpClientFactory.CreateClient("MyMovieClient"); 
-            var request = new HttpRequestMessage(HttpMethod.Get, provider);
-            var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-
-            response.EnsureSuccessStatusCode();
-            var movies = JsonConvert.DeserializeObject<MoviesDTO>(await response.Content.ReadAsStringAsync());
-            var itemList = movies.Movies;
-            return itemList;          
-        }
-
-        //Unused Methods Saved for Another Scenario
-        private IEnumerable<MovieItem> SyncGetMovieItemsFromBothAPI()
-        {
             try
             {
-                var result = Task
-                    .Run(() => AsyncGetMovieItemsByAPI())
-                    .GetAwaiter().GetResult();
-                return result;
+                var httpClient = _httpClientFactory.CreateClient("MyMovieClient");
+                var request = new HttpRequestMessage(HttpMethod.Get, provider);
+                var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                response.EnsureSuccessStatusCode();
+                var movies = JsonConvert.DeserializeObject<MoviesDTO>(await response.Content.ReadAsStringAsync());
+                var itemList = movies.Movies;
+                return itemList;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                _logger.LogError("API Fails: " + e);
+                _logger.LogError(provider + " API Fails: " + e);
                 return new List<MovieItem>();
             }
-        }
-        private async Task<IEnumerable<MovieItem>> AsyncGetMovieItemsByAPI()
-        {
-
-            var FWMovies = await GetMoviesFromProvider(FILM_WORLD_API);
-            var CWMovies = await GetMoviesFromProvider(CINEMA_WORLD_API);
-
-            return MergeAndProcessResults(FWMovies, CWMovies);
-
         }
     }
 }

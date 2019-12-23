@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,7 @@ namespace myapi.Controllers
         }
         // GET: api/MyMovies
         [HttpGet]
-        public ActionResult<string> Get()
+        public async Task<ActionResult<string>> Get()
         {
             var cacheKey = "movieList";
             if (_memoryCahce.TryGetValue(cacheKey, out string results))
@@ -38,7 +39,7 @@ namespace myapi.Controllers
             }
             else
             {
-                var resultCollection = _myMovieService.GetMovies();
+                var resultCollection = await _myMovieService.GetMovies();
                 if(resultCollection.Any())
                 {
                     MoviesDTO responseBody = new MoviesDTO
@@ -60,7 +61,7 @@ namespace myapi.Controllers
 
         // GET: api/MyMovies/5
         [HttpGet("{id}", Name = "GetDetails")]
-        public ActionResult<string> Get(string id)
+        public async Task<ActionResult<string>> Get(string id)
         {
             var cacheKey = "movieDetail_" + id;
             if (_memoryCahce.TryGetValue(cacheKey, out string resultStr))
@@ -70,7 +71,7 @@ namespace myapi.Controllers
             }
             else
             {
-                var result = _myMovieDetailService.GetDetailById(id);
+                var result = await _myMovieDetailService.GetDetailById(id);
                 if(result != null)
                 {
                     var resultJson = JsonConvert.SerializeObject(result);
