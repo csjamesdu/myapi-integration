@@ -6,7 +6,9 @@
           <mat-card-title>{{movie.Title}}</mat-card-title>
           <mat-card-subtitle>{{movie.Year}}</mat-card-subtitle>
         </mat-card-header>
-        <img class="poster-img" mat-card-image src="{{movie.Poster}}" alt="">
+          <a [routerLink]="['/movie', movie.ID]">
+            <img class="poster-img" mat-card-image src="{{movie.Poster}}" alt="">
+          </a>
         <mat-card-content>
         </mat-card-content>
         <mat-card-actions>
