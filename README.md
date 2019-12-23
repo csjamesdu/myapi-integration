@@ -3,22 +3,27 @@
 This project implements a web app that queries from two different API providers and presents the available movies as well as the best price for each movie.
   - Front-End: Angular 8 as integrated SPA
   - Back-End: Dotnet Core 3.1 as Host Server
+  
+
+### Run 
+#### Web Host: 
+	-Azure: https://myapi-movie-world.azurewebsites.net/
+#### Local Debug:
+- Under Visual Studio 2019: Please select debugging "myapi" and run debugging.
+- Under VSCode : Either Debugging or Run Without Debugging.
+- Localhost should be automatically launched within the default browser.  
 
 ### Features
 
   - Query two different third party APIs with 3 retry attempts and combine the results;
-  - Cache API query results with In Memory Cache mechanism provided by the platform;
   - Write the movies list into the In Memory DB as backups after API query respond sucessfully;
+  - Cache API query results including movie list and details with In Memory Cache mechanism provided by the platform;
+  - Movie price will not be cached, it will be querid directly through API each time;
+  
 
 ### Adjustments
 - The ID of each movie is unified by cutting off the prefix.
 - The poster urls are all replaced by valid resources.
-
-### Run 
-- Under Visual Studio 2019: Please select debugging "myapi" and run debugging.
-- Under VSCode : Either Debugging or Run Without Debugging.
-- Localhost should be automatically launched within the default browser.
-
 
 ### Development RoadMap
 

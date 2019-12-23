@@ -1,9 +1,8 @@
-<div class="container" [hidden] ="onLoading">
+<div class="container" [hidden] ="onLoadingDetail">
   <div class="movie-info">
     <div class="detail-info">
       <div id="detail-poster">
         <img class="poster-img" src="{{movieDetail.Poster}}">
-        <img class="place-holder" src="https://via.placeholder.com/280x390?text=Poster's Gone...">
       </div>
       <div id="detail-text">
         <span>
@@ -81,9 +80,12 @@
   </div>
 
   <div class="price-button">
-    Best Price: {{movieDetail.Price | currency}} ( {{providedBy}} )
+    Best Price: <div class="price-field" [hidden]="onLoadingPrice">{{moviePrice.Price | currency}} ( {{providedBy}} )</div>
+    <div id="priceSpin" class="spinner-border" role="status" [hidden]="!onLoadingPrice">
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
 </div>
-<div class="spinner-border" role="status" [hidden]="!onLoading">
+<div id="detailSpin" class="spinner-border" role="status" [hidden]="!onLoadingDetail">
   <span class="sr-only">Loading...</span>
 </div>

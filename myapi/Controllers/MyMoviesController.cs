@@ -59,7 +59,7 @@ namespace myapi.Controllers
         }
 
         // GET: api/MyMovies/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetDetails")]
         public ActionResult<string> Get(string id)
         {
             var cacheKey = "movieDetail_" + id;

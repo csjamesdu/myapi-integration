@@ -31,7 +31,7 @@ import { HttpErrorInterceptor } from './services/app-error-interceptor.service';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: MovieListComponent, pathMatch: 'full' },
       { path: 'movies', component: MovieListComponent },
       { path: 'movie/:id', component: SingleMovieComponent },
       { path: 'error', component: ErrorComponent },

@@ -3,6 +3,7 @@ import { AppHttpClient } from '../services/app-http-client.service';
 import { MoviesItemDetailModel } from '../models/movies.detail.model';
 import { MoviesResponse } from '../models/movies.model';
 
+/*const API_URL = 'https://myapi-movie-world.azurewebsites.net/';*/
 const API_URL = 'https://localhost:5001/';
 
 @Component({
