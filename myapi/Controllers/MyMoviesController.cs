@@ -11,18 +11,14 @@ namespace myapi.Controllers
     public class MyMoviesController : ControllerBase
     {
         private readonly ILogger<MyMoviesController> _logger;
-        private readonly IMyMovieDetailService _myMovieDetailService;
         private readonly IMemoryCache _memoryCahce;
-
         private readonly IDataAggregationService _dataAggregationService;
 
         public MyMoviesController(
-            IMyMovieDetailService myMovieDetailService,
             ILogger<MyMoviesController> logger,
             IMemoryCache memoryCache,
             IDataAggregationService dataAggregationService)
         {
-            _myMovieDetailService = myMovieDetailService;
             _logger = logger;
             _memoryCahce = memoryCache;
             _dataAggregationService = dataAggregationService;
