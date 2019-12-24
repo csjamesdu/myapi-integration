@@ -29,7 +29,6 @@ namespace myapi
             services.AddMemoryCache();
 
             //Inject Services
-            services.AddTransient<IMyMovieDetailService, MyMovieDetailService>();
             services.AddTransient<IDataAggregationService, DataAggregationService>();
             services.AddTransient<ICinemaWorldAPIService, CinemaWorldAPIService>();
             services.AddTransient<IFilmWorldAPIService, FilmWorldAPIService>();
@@ -41,7 +40,7 @@ namespace myapi
             services.AddHttpClient("MyMovieClient", client =>
             {
                 client.BaseAddress = new Uri("http://webjetapitest.azurewebsites.net/");
-                client.Timeout = new TimeSpan(0, 0, 30);
+                client.Timeout = new TimeSpan(0, 0, 15);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(
                     "x-access-token", "sjd1HfkjU83ksdsm3802k"
