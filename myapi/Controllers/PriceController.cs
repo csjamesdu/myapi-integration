@@ -15,20 +15,27 @@ namespace myapi.Controllers
     public class PriceController : ControllerBase
     {
 
-        private readonly IMyMovieDetailService _myMovieDetailService;
+        private readonly IDataAggregationService _dataAggregationService;
 
-        public PriceController(IMyMovieDetailService myMovieDetailService)
+        public PriceController(IDataAggregationService dataAggregationService)
         {
-            _myMovieDetailService = myMovieDetailService;
+            _dataAggregationService = dataAggregationService;
         }
 
         // GET: api/Price/5
         [HttpGet("{id}", Name = "GetPrice")]
         public async Task<ActionResult<string>> Get(string id)
         {
-            MovieDetail detail = await _myMovieDetailService.GetDetailById(id);
-            var JsonStr = JsonConvert.SerializeObject(detail);
-            return Ok(JsonStr);
+            MovieDetail detail = await _dataAggregationService.GetBestPriceForMovie(id);
+            if(detail != null)
+            {
+                var JsonStr = JsonConvert.SerializeObject(detail);
+                return Ok(JsonStr);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
     }

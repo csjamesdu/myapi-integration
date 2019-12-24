@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using myapi.DAO;
-using myapi.Models;
 using myapi.Services;
 using Polly;
 using Polly.Extensions.Http;
@@ -31,13 +28,14 @@ namespace myapi
             //Inject In-Memory Cache
             services.AddMemoryCache();
 
-            //Inject In-Memory DB 
-            services.AddDbContext<MovieItemContext>(opt => opt.UseInMemoryDatabase("MovieItem"));
-
             //Inject Services
-            services.AddScoped<IMyMovieService, MyMovieService>();
-            services.AddScoped<IMovieItemDAO, MovieItemDAO>();
-            services.AddScoped<IMyMovieDetailService, MyMovieDetailService>();
+            services.AddTransient<IMyMovieDetailService, MyMovieDetailService>();
+            services.AddTransient<IDataAggregationService, DataAggregationService>();
+            services.AddTransient<ICinemaWorldAPIService, CinemaWorldAPIService>();
+            services.AddTransient<IFilmWorldAPIService, FilmWorldAPIService>();
+            services.AddSingleton<IMovieAPIUtilService, MovieAPIUtilService>();
+            services.AddSingleton<IAppHttpService, AppHttpService>();
+            services.AddSingleton<IMemCacheService, MemCacheService>();
 
             //Inject HttpClient
             services.AddHttpClient("MyMovieClient", client =>

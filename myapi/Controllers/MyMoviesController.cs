@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using myapi.Models;
 using myapi.Services;
-using Newtonsoft.Json;
 
 namespace myapi.Controllers
 {
@@ -14,47 +11,34 @@ namespace myapi.Controllers
     public class MyMoviesController : ControllerBase
     {
         private readonly ILogger<MyMoviesController> _logger;
-        private readonly IMyMovieService _myMovieService;
         private readonly IMyMovieDetailService _myMovieDetailService;
         private readonly IMemoryCache _memoryCahce;
-        public MyMoviesController(IMyMovieService myMovieService,
+
+        private readonly IDataAggregationService _dataAggregationService;
+
+        public MyMoviesController(
             IMyMovieDetailService myMovieDetailService,
             ILogger<MyMoviesController> logger,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IDataAggregationService dataAggregationService)
         {
-            _myMovieService = myMovieService;
             _myMovieDetailService = myMovieDetailService;
             _logger = logger;
             _memoryCahce = memoryCache;
+            _dataAggregationService = dataAggregationService;
         }
         // GET: api/MyMovies
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {
-            var cacheKey = "movieList";
-            if (_memoryCahce.TryGetValue(cacheKey, out string results))
+            var resultDTO = await _dataAggregationService.GetMovieList();
+            if (resultDTO != null)
             {
-                _logger.LogInformation("***************cache hit for list");
-                return Ok(results);
+                return Ok(resultDTO);
             }
             else
             {
-                var resultCollection = await _myMovieService.GetMovies();
-                if(resultCollection.Any())
-                {
-                    MoviesDTO responseBody = new MoviesDTO
-                    {
-                        Movies = resultCollection.ToList()
-                    };
-                    var resultJson = JsonConvert.SerializeObject(responseBody);
-                    _memoryCahce.Set(cacheKey, resultJson);
-                    return Ok(resultJson);
-                }
-                else
-                {
-                    return NotFound();
-                }
-               
+                return NotFound();
             }
 
         }
@@ -63,28 +47,15 @@ namespace myapi.Controllers
         [HttpGet("{id}", Name = "GetDetails")]
         public async Task<ActionResult<string>> Get(string id)
         {
-            var cacheKey = "movieDetail_" + id;
-            if (_memoryCahce.TryGetValue(cacheKey, out string resultStr))
+            var resultStr = await _dataAggregationService.GetMovieDetail(id);
+            if (resultStr != null)
             {
-                _logger.LogInformation("***************cache hit for detail " + id);
                 return Ok(resultStr);
             }
             else
             {
-                var result = await _myMovieDetailService.GetDetailById(id);
-                if(result != null)
-                {
-                    var resultJson = JsonConvert.SerializeObject(result);
-                    _memoryCahce.Set(cacheKey, resultJson);
-                    return Ok(resultJson);
-                }
-                else
-                {
-                    return NotFound();
-                }
-                
-            }           
+                return NotFound();
+            }
         }
-
     }
 }
