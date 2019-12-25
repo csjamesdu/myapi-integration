@@ -13,5 +13,7 @@ namespace myapi.Services
         Task<MovieDetail> GetMovieDetailFromAPI(string api, string client);
 
         IEnumerable<MovieItem> MergeAndProcessResults(IEnumerable<MovieItem> original, IEnumerable<MovieItem> others);
+
+        MovieDetail FindTheBestPrice(List<MovieDetail> detailList);
     }
 }

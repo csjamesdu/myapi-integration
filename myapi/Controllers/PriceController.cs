@@ -34,7 +34,7 @@ namespace myapi.Controllers
             }
             else
             {
-                return NotFound();
+                return Ok(JsonConvert.SerializeObject("Unavailable!"));
             }
         }
 

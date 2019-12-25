@@ -2,6 +2,8 @@
 using myapi.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -92,7 +94,7 @@ namespace myapi.Services
 
             var firstFinished = await Task.WhenAny(taskFW, taskCW);
             var result = await firstFinished;
-            result.Poster = PosterResources.PosterDic[id];
+            if (result != null) result.Poster = PosterResources.PosterDic[id];
             return result;
         }
 
@@ -100,26 +102,12 @@ namespace myapi.Services
         {
             var resultCW =await _cinemaWorldAPIService.AsyncGetMovieDetail(id);
             var resultFW =await _filmWorldAPIService.AsyncGetMovieDetail(id);
-            if (resultCW != null)
-            {
-                if (resultFW != null)
-                {
-                    return resultCW.Price < resultFW.Price ? resultCW : resultFW;
-                }
-                else
-                {
-                    return resultCW;
-                }
-            }
-            else
-            {
-                if (resultFW != null)
-                {
-                    return resultFW;
-                }
-                else return null;
-            }
 
+            List<MovieDetail> rawList = new List<MovieDetail>();
+            if (resultCW != null) rawList.Add(resultCW);
+            if (resultFW != null) rawList.Add(resultFW);
+
+            return _movieAPIUtilService.FindTheBestPrice(rawList);
         }
     }
 }

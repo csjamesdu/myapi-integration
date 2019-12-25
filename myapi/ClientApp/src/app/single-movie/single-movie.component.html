@@ -1,4 +1,11 @@
-<div class="container" [hidden] ="onLoadingDetail">
+<div class="container" [hidden]="onLoadingDetail">
+  <div class="price-line row">
+    <div class="price-text col-sm">Best Price: </div>
+    <div class="price-field col-sm" [hidden]="onLoadingPrice">{{moviePrice.Price | currency}} ( {{providedBy}} )</div>
+    <div id="priceSpin" class="spinner-border" role="status" [hidden]="!onLoadingPrice">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
   <div class="movie-info">
     <div class="detail-info">
       <div id="detail-poster">
@@ -79,12 +86,7 @@
 
   </div>
 
-  <div class="price-button">
-    Best Price: <div class="price-field" [hidden]="onLoadingPrice">{{moviePrice.Price | currency}} ( {{providedBy}} )</div>
-    <div id="priceSpin" class="spinner-border" role="status" [hidden]="!onLoadingPrice">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
+
 </div>
 <div id="detailSpin" class="spinner-border" role="status" [hidden]="!onLoadingDetail">
   <span class="sr-only">Loading...</span>

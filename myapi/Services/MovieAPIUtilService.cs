@@ -26,7 +26,7 @@ namespace myapi.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("FilmWorld List API Fails: " + e);
+                _logger.LogError(api + "List API Fails: " + e);
                 return new List<MovieItem>();
             }
         }
@@ -55,7 +55,22 @@ namespace myapi.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("FilmWorld Detail API Fails: " + e);
+                _logger.LogError(api + " Detail API Fails: " + e);
+                return null;
+            }
+        }
+
+        public MovieDetail FindTheBestPrice(List<MovieDetail> detailList)
+        {
+            if(detailList.Any())
+            {
+                var minPrice = detailList.Min(e => e.Price);
+                var resultObj = detailList.First(e => e.Price == minPrice);
+
+                return resultObj;
+            }
+            else
+            {
                 return null;
             }
         }
